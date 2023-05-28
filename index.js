@@ -25,36 +25,50 @@ client.connect(err => {
 async function run(){
     try{
 
-        const serviceCollection = client.db('danriyalSolutions').collection('services')
-        const blogsCollection = client.db('danriyalSolutions').collection('blogs')
+        // const serviceCollection = client.db('danriyalSolutions').collection('services')
+        // const blogsCollection = client.db('danriyalSolutions').collection('blogs')
+        const userCollection = client.db('danriyalSolutions').collection('user');
 
-        app.get('/services',async(req,res)=>{
-             const query = {};
-             const services = await serviceCollection.find(query).toArray();
-             console.log(services)
-            res.send(services);
+
+        app.post('/user',async(req,res)=>{
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.send(result);
         })
 
-        app.get('/shortServices',async(req,res)=>{
-             const query = {};
-             const services = await serviceCollection.find(query).limit(3).toArray();
-             console.log(services)
-            res.send(services);
+        app.get('/users',async(req,res)=>{
+            const query = {};
+            const users = await userCollection.find(query).toArray();
+            res.send(users);
         })
 
-        app.get('/blogs',async(req,res)=>{
-             const query = {};
-             const blogs = await blogsCollection.find(query).toArray();
+        // app.get('/services',async(req,res)=>{
+        //      const query = {};
+        //      const services = await serviceCollection.find(query).toArray();
+        //      console.log(services)
+        //     res.send(services);
+        // })
+
+        // app.get('/shortServices',async(req,res)=>{
+        //      const query = {};
+        //      const services = await serviceCollection.find(query).limit(3).toArray();
+        //      console.log(services)
+        //     res.send(services);
+        // })
+
+        // app.get('/blogs',async(req,res)=>{
+        //      const query = {};
+        //      const blogs = await blogsCollection.find(query).toArray();
           
-            res.send(blogs);
-        })
+        //     res.send(blogs);
+        // })
 
-        app.get('/shortBlogs',async(req,res)=>{
-             const query = {};
-             const blogs = await blogsCollection.find(query).limit(2).toArray();
+        // app.get('/shortBlogs',async(req,res)=>{
+        //      const query = {};
+        //      const blogs = await blogsCollection.find(query).limit(2).toArray();
           
-            res.send(blogs);
-        })
+        //     res.send(blogs);
+        // })
     }
     finally{
 

@@ -28,6 +28,8 @@ async function run(){
         // const serviceCollection = client.db('danriyalSolutions').collection('services')
         // const blogsCollection = client.db('danriyalSolutions').collection('blogs')
         const userCollection = client.db('danriyalSolutions').collection('user');
+        const depositCollection = client.db('danriyalSolutions').collection('deposit');
+        const withdrawCollection = client.db('danriyalSolutions').collection('withdraw');
 
 
         app.post('/user',async(req,res)=>{
@@ -36,10 +38,43 @@ async function run(){
             res.send(result);
         })
 
+        app.post('/deposit',async(req,res)=>{
+            const deposit = req.body;
+            const result = await depositCollection.insertOne(deposit);
+            res.send(result);
+        })
+
+        app.post('/withdraw',async(req,res)=>{
+            const withdraw = req.body;
+            const result = await withdrawCollection.insertOne(withdraw);
+            res.send(result);
+        })
+
         app.get('/users',async(req,res)=>{
             const query = {};
             const users = await userCollection.find(query).toArray();
             res.send(users);
+        })
+
+        app.get('/loginUser',async(req,res)=>{
+            const phone = req.query.phone;
+            const password = req.query.password;
+
+            const query = {phone,password};
+            const user = await userCollection.findOne(query);
+            res.send(user);
+        })
+
+        app.get('/deposits',async(req,res)=>{
+            const query = {};
+            const deposits = await depositCollection.find(query).toArray();
+            res.send(deposits);
+        })
+
+        app.get('/withdraws',async(req,res)=>{
+            const query = {};
+            const withdraws = await withdrawCollection.find(query).toArray();
+            res.send(withdraws);
         })
 
         // app.get('/services',async(req,res)=>{
